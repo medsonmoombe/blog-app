@@ -6,6 +6,7 @@ import {
   signout,
   test,
   updateUser,
+  updateUserRole,
 } from '../controllers/user.controller.js';
 import { verifyToken } from '../utils/verifyUser.js';
 
@@ -17,5 +18,7 @@ router.delete('/delete/:userId', verifyToken, deleteUser);
 router.post('/signout', signout);
 router.get('/getusers', verifyToken, getUsers);
 router.get('/:userId', getUser);
+// update user role to admin or user by admin (admin only)
+router.put('/updateUserRole/:userId', verifyToken, updateUserRole);
 
 export default router;

@@ -14,12 +14,10 @@ import UpdatePost from './pages/UpdatePost';
 import PostPage from './pages/PostPage';
 import ScrollToTop from './components/ScrollToTop';
 import Search from './pages/Search';
-import { useSelector } from 'react-redux';
+
 
 export default function App() {
-  const { currentUser } = useSelector((state) => state.user);
 
-  console.log("currentUser", currentUser);
   return (
     <BrowserRouter>
       <ScrollToTop />
@@ -37,7 +35,6 @@ export default function App() {
           <Route path='/create-post' element={<CreatePost />} />
           <Route path='/update-post/:postId' element={<UpdatePost />} />
         </Route>
-
         <Route path='/projects' element={<Projects />} />
         <Route path='/post/:postSlug' element={<PostPage />} />
       </Routes>

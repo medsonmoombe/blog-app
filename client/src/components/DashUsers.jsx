@@ -63,6 +63,26 @@ export default function DashUsers() {
     }
   };
 
+  const handleUpdateUserRole = async (userId) => {
+    try {
+      const res = await fetch(`/api/user/updateUserRole/${userId}`, {
+        method: 'PUT',
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setUsers((prev) =>
+          prev.map((user) =>
+            user._id === userId ? { ...user, isAdmin: !user.isAdmin } : user
+          )
+        );
+      } else {
+        console.log(data.message);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
       {currentUser.isAdmin && users.length > 0 ? (
@@ -75,6 +95,7 @@ export default function DashUsers() {
               <Table.HeadCell>Email</Table.HeadCell>
               <Table.HeadCell>Admin</Table.HeadCell>
               <Table.HeadCell>Delete</Table.HeadCell>
+              <Table.HeadCell>Update Role</Table.HeadCell>
             </Table.Head>
             {users.map((user) => (
               <Table.Body className='divide-y' key={user._id}>
@@ -108,6 +129,14 @@ export default function DashUsers() {
                     >
                       Delete
                     </span>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Button
+                      color={user.isAdmin ? 'failure' : 'success'}
+                      onClick={() => handleUpdateUserRole(user._id)}
+                    >
+                      {user.isAdmin ? 'Revoke Admin' : 'Make Admin'}
+                    </Button>
                   </Table.Cell>
                 </Table.Row>
               </Table.Body>

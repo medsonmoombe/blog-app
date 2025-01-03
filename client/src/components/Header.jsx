@@ -110,9 +110,10 @@ export default function Header() {
         )}
         <Navbar.Toggle />
       </div>
+
       <Navbar.Collapse>
         <Navbar.Link active={path === '/'} as={'div'}>
-          <Link to='/'>Home</Link>
+          <Link to='/'>Home </Link>
         </Navbar.Link>
         <Navbar.Link active={path === '/about'} as={'div'}>
           <Link to='/about'>About</Link>
@@ -120,6 +121,14 @@ export default function Header() {
         <Navbar.Link active={path === '/projects'} as={'div'}>
           <Link to='/projects'>Projects</Link>
         </Navbar.Link>
+       {currentUser?.isAdmin && <Navbar.Link active={path === '/projects'} as={'div'}>
+          <Link to='/create-post'>Create </Link>
+        </Navbar.Link>}
+
+       {currentUser?.isAdmin &&  <Navbar.Link active={path === '/projects'} as={'div'}>
+          <Link to='/dashboard'>Dashboard</Link>
+        </Navbar.Link>}
+       
       </Navbar.Collapse>
     </Navbar>
   );
