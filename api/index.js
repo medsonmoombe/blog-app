@@ -11,33 +11,35 @@ import path from 'path';
 dotenv.config();
 
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO)
   .then(() => {
     console.log('MongoDb is connected');
   })
   .catch((err) => {
-    console.error(err);
+    console.log(err);
   });
+
+const __dirname = path.resolve();
 
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
 
+app.listen(3000, () => {
+  console.log('Server is running on port 3000!');
+});
+
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/comment', commentRoutes);
 
-// Serve static files in production
-const __dirname = path.resolve();
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '/client/dist')));
+app.use(express.static(path.join(__dirname, '/client/dist')));
 
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
-  });
-}
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+});
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
@@ -48,5 +50,3 @@ app.use((err, req, res, next) => {
     message,
   });
 });
-
-export default app;
