@@ -25,9 +25,7 @@ export default function DashPosts() {
         console.log(error.message);
       }
     };
-    if (currentUser.isAdmin) {
-      fetchPosts();
-    }
+    fetchPosts();
   }, [currentUser._id]);
 
   const handleShowMore = async () => {
@@ -72,7 +70,13 @@ export default function DashPosts() {
 
   return (
     <div className='table-auto overflow-x-scroll md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500'>
-      {currentUser.isAdmin && userPosts.length > 0 ? (
+      <div className='flex justify-between items-center mb-4'>
+        <h2 className='text-2xl font-semibold'>Your Posts</h2>
+        <Link to='/create-post'>
+          <Button gradientDuoTone='purpleToPink'>Create Post</Button>
+        </Link>
+      </div>
+      {userPosts.length > 0 ? (
         <>
           <Table hoverable className='shadow-md'>
             <Table.Head>
