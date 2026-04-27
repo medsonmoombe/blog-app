@@ -9,7 +9,18 @@ export default {
     'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        inter: ['Inter', 'sans-serif'],
+      },
+      colors: {
+        primary: {
+          DEFAULT: '#5F8D75',
+          light: '#8BBCA1',
+          dark: '#3D4F46',
+        },
+      },
+    },
   },
   plugins: [
     flowbitePlugin,

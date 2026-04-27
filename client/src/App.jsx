@@ -12,33 +12,45 @@ import OnlyAdminPrivateRoute from './components/OnlyAdminPrivateRoute';
 import CreatePost from './pages/CreatePost';
 import UpdatePost from './pages/UpdatePost';
 import PostPage from './pages/PostPage';
-import ScrollToTop from './components/ScrollToTop';
+import ScrollToTopButton from './components/ScrollToTop';
 import Search from './pages/Search';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
+import NotFound from './pages/NotFound';
+import AuthorProfile from './pages/AuthorProfile';
+import { ToastProvider } from './context/ToastContext';
+import '../src/print.css';
 
 
 export default function App() {
 
   return (
     <BrowserRouter>
-      <ScrollToTop />
-      <Header />
-      <Routes>
-        <Route path='/' element={<Home />} />
-        <Route path='/about' element={<About />} />
-        <Route path='/sign-in' element={<SignIn />} />
-        <Route path='/sign-up' element={<SignUp />} />
-        <Route path='/search' element={<Search />} />
-        <Route element={<PrivateRoute />}>
-          <Route path='/dashboard' element={<Dashboard />} />
-        </Route>
-        <Route element={<PrivateRoute />}>
-          <Route path='/create-post' element={<CreatePost />} />
-          <Route path='/update-post/:postId' element={<UpdatePost />} />
-        </Route>
-        <Route path='/projects' element={<Projects />} />
-        <Route path='/post/:postSlug' element={<PostPage />} />
-      </Routes>
-      <Footer />
+      <ToastProvider>
+        <ScrollToTopButton />
+        <Header />
+        <Routes>
+          <Route path='/' element={<Home />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/sign-in' element={<SignIn />} />
+          <Route path='/sign-up' element={<SignUp />} />
+          <Route path='/forgot-password' element={<ForgotPassword />} />
+          <Route path='/reset-password/:token' element={<ResetPassword />} />
+          <Route path='/search' element={<Search />} />
+          <Route element={<PrivateRoute />}>
+            <Route path='/dashboard' element={<Dashboard />} />
+          </Route>
+          <Route element={<PrivateRoute />}>
+            <Route path='/create-post' element={<CreatePost />} />
+            <Route path='/update-post/:postId' element={<UpdatePost />} />
+          </Route>
+          <Route path='/projects' element={<Projects />} />
+          <Route path='/post/:postSlug' element={<PostPage />} />
+          <Route path='/author/:userId' element={<AuthorProfile />} />
+          <Route path='*' element={<NotFound />} />
+        </Routes>
+        <Footer />
+      </ToastProvider>
     </BrowserRouter>
   );
 }

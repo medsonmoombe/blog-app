@@ -1,81 +1,153 @@
-import { Footer } from 'flowbite-react';
 import { Link } from 'react-router-dom';
-import { BsFacebook, BsInstagram, BsTwitter, BsGithub, BsDribbble } from 'react-icons/bs';
+import { BsFacebook, BsInstagram, BsTwitter, BsGithub, BsLinkedin } from 'react-icons/bs';
+import { HiPencil, HiHeart, HiCode } from 'react-icons/hi';
+
 export default function FooterCom() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <Footer container className='border border-t-8 border-teal-500'>
-      <div className='w-full max-w-7xl mx-auto'>
-        <div className='grid w-full justify-between sm:flex md:grid-cols-1'>
-          <div className='mt-5'>
-            <Link
-              to='/'
-              className='self-center whitespace-nowrap text-lg sm:text-xl font-semibold dark:text-white'
-            >
-              <span className='px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-lg text-white'>
-                Emmanuel's
-              </span>
-              Blog
+    <footer className="border-t border-gray-200 dark:border-white/5 relative z-10 bg-white dark:bg-[#050505]">
+      <div className="max-w-6xl mx-auto px-6 py-16">
+        <div className="grid md:grid-cols-4 gap-12 md:gap-8">
+          {/* Brand */}
+          <div className="md:col-span-1">
+            <Link to="/" className="flex items-center gap-3 mb-4 group">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-gradient-to-br from-primary to-primary-dark">
+                <HiPencil className="w-4 h-4 text-white" />
+              </div>
+              <span className="text-base font-semibold tracking-tight">Emmanuel's Blog</span>
             </Link>
+            <p className="text-sm text-gray-600 dark:text-gray-500 leading-relaxed">
+              Exploring web development, sharing knowledge, one article at a time.
+            </p>
           </div>
-          <div className='grid grid-cols-2 gap-8 mt-4 sm:grid-cols-3 sm:gap-6'>
-            <div>
-              <Footer.Title title='About' />
-              <Footer.LinkGroup col>
-                <Footer.Link
-                  href='https://www.100jsprojects.com'
-                  target='_blank'
-                  rel='noopener noreferrer'
+
+          {/* About */}
+          <div>
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-500 mb-4">
+              About
+            </h4>
+            <ul className="space-y-3">
+              <li>
+                <Link
+                  to="/about"
+                  className="text-sm text-gray-600 dark:text-gray-500 hover:text-primary-light transition-colors"
+                >
+                  About Me
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/projects"
+                  className="text-sm text-gray-600 dark:text-gray-500 hover:text-primary-light transition-colors"
+                >
+                  Projects
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="https://www.100jsprojects.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-gray-600 dark:text-gray-500 hover:text-primary-light transition-colors"
                 >
                   100 JS Projects
-                </Footer.Link>
-                <Footer.Link
-                  href='/about'
-                  target='_blank'
-                  rel='noopener noreferrer'
+                </a>
+              </li>
+              <li>
+                <Link
+                  to="/search"
+                  className="text-sm text-gray-600 dark:text-gray-500 hover:text-primary-light transition-colors"
                 >
-                  Emmanuel's Blog
-                </Footer.Link>
-              </Footer.LinkGroup>
-            </div>
-            <div>
-              <Footer.Title title='Follow us' />
-              <Footer.LinkGroup col>
-                <Footer.Link
-                  href='https://www.github.com/medsonmoombe'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  Github
-                </Footer.Link>
-                <Footer.Link href='#'>Discord</Footer.Link>
-              </Footer.LinkGroup>
-            </div>
-            <div>
-              <Footer.Title title='Legal' />
-              <Footer.LinkGroup col>
-                <Footer.Link href='#'>Privacy Policy</Footer.Link>
-                <Footer.Link href='#'>Terms &amp; Conditions</Footer.Link>
-              </Footer.LinkGroup>
+                  All Articles
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Follow Us */}
+          <div>
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-500 mb-4">
+              Follow Us
+            </h4>
+            <div className="flex gap-3">
+              <a
+                href="https://github.com/medsonmoombe"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-xl flex items-center justify-center bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-500 hover:bg-primary/10 hover:border-primary/30 hover:text-primary-light hover:-translate-y-1 transition-all duration-300"
+              >
+                <BsGithub className="w-4 h-4" />
+              </a>
+              <a
+                href="#"
+                className="w-10 h-10 rounded-xl flex items-center justify-center bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-500 hover:bg-primary/10 hover:border-primary/30 hover:text-primary-light hover:-translate-y-1 transition-all duration-300"
+              >
+                <BsTwitter className="w-4 h-4" />
+              </a>
+              <a
+                href="#"
+                className="w-10 h-10 rounded-xl flex items-center justify-center bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-500 hover:bg-primary/10 hover:border-primary/30 hover:text-primary-light hover:-translate-y-1 transition-all duration-300"
+              >
+                <BsLinkedin className="w-4 h-4" />
+              </a>
+              <a
+                href="#"
+                className="w-10 h-10 rounded-xl flex items-center justify-center bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 text-gray-600 dark:text-gray-500 hover:bg-primary/10 hover:border-primary/30 hover:text-primary-light hover:-translate-y-1 transition-all duration-300"
+              >
+                <BsFacebook className="w-4 h-4" />
+              </a>
             </div>
           </div>
-        </div>
-        <Footer.Divider />
-        <div className='w-full sm:flex sm:items-center sm:justify-between'>
-          <Footer.Copyright
-            href='#'
-            by="Emmanuel's Blog"
-            year={new Date().getFullYear()}
-          />
-          <div className="flex gap-6 sm:mt-0 mt-4 sm:justify-center">
-            <Footer.Icon href='#' icon={BsFacebook}/>
-            <Footer.Icon href='#' icon={BsInstagram}/>
-            <Footer.Icon href='#' icon={BsTwitter}/>
-            <Footer.Icon href='https://github.com/medsonmoombe' icon={BsGithub}/>
-            <Footer.Icon href='#' icon={BsDribbble}/>
 
+          {/* Legal */}
+          <div>
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-500 mb-4">
+              Legal
+            </h4>
+            <ul className="space-y-3">
+              <li>
+                <a
+                  href="#"
+                  className="text-sm text-gray-600 dark:text-gray-500 hover:text-primary-light transition-colors"
+                >
+                  Privacy Policy
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-sm text-gray-600 dark:text-gray-500 hover:text-primary-light transition-colors"
+                >
+                  Terms of Service
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  className="text-sm text-gray-600 dark:text-gray-500 hover:text-primary-light transition-colors"
+                >
+                  Cookie Policy
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-white/5 to-transparent mt-12 mb-8" />
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-gray-600 dark:text-gray-500">
+            © {currentYear} Emmanuel's Blog. All rights reserved.
+          </p>
+          <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-500">
+            <span>Built with</span>
+            <HiHeart className="w-3 h-3 text-primary" />
+            <span>and lots of</span>
+            <HiCode className="w-3 h-3 text-purple-500" />
           </div>
         </div>
       </div>
-    </Footer>
+    </footer>
   );
 }
