@@ -150,3 +150,159 @@ export const updateUserRole = async (req, res, next) => {
     next(error);
   }
 };
+
+// Bookmark/Unbookmark post
+export const toggleBookmark = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return next(errorHandler(404, 'User not found'));
+    }
+
+    const postId = req.params.postId;
+    const bookmarkIndex = user.bookmarks.indexOf(postId);
+
+    if (bookmarkIndex === -1) {
+      // Add bookmark
+      user.bookmarks.push(postId);
+    } else {
+      // Remove bookmark
+      user.bookmarks.splice(bookmarkIndex, 1);
+    }
+
+    await user.save();
+    const { password, ...rest } = user._doc;
+    res.status(200).json({
+      bookmarks: rest.bookmarks,
+      bookmarked: bookmarkIndex === -1,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Get user's bookmarked posts
+export const getBookmarkedPosts = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.user.id).populate('bookmarks');
+    if (!user) {
+      return next(errorHandler(404, 'User not found'));
+    }
+
+    res.status(200).json(user.bookmarks);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Get author profile with stats
+export const getAuthorProfile = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      return next(errorHandler(404, 'User not found'));
+    }
+
+    const { password, ...userWithoutPassword } = user._doc;
+
+    // Get author's post count
+    const Post = (await import('../models/post.model.js')).default;
+    const totalPosts = await Post.countDocuments({ 
+      userId: req.params.userId,
+      status: 'published'
+    });
+
+    // Get total views on author's posts
+    const posts = await Post.find({ 
+      userId: req.params.userId,
+      status: 'published'
+    });
+    const totalViews = posts.reduce((sum, post) => sum + (post.views || 0), 0);
+    const totalLikes = posts.reduce((sum, post) => sum + (post.likes?.length || 0), 0);
+
+    res.status(200).json({
+      ...userWithoutPassword,
+      stats: {
+        totalPosts,
+        totalViews,
+        totalLikes,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Follow/Unfollow user
+export const toggleFollow = async (req, res, next) => {
+  try {
+    if (req.user.id === req.params.userId) {
+      return next(errorHandler(400, 'You cannot follow yourself'));
+    }
+
+    const userToFollow = await User.findById(req.params.userId);
+    const currentUser = await User.findById(req.user.id);
+
+    if (!userToFollow) {
+      return next(errorHandler(404, 'User not found'));
+    }
+
+    const isFollowing = currentUser.following.includes(req.params.userId);
+
+    if (isFollowing) {
+      // Unfollow
+      currentUser.following = currentUser.following.filter(
+        (id) => id !== req.params.userId
+      );
+      userToFollow.followers = userToFollow.followers.filter(
+        (id) => id !== req.user.id
+      );
+    } else {
+      // Follow
+      currentUser.following.push(req.params.userId);
+      userToFollow.followers.push(req.user.id);
+    }
+
+    await currentUser.save();
+    await userToFollow.save();
+
+    res.status(200).json({
+      following: currentUser.following,
+      isFollowing: !isFollowing,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Get user's followers
+export const getFollowers = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId).populate(
+      'followers',
+      'username profilePicture'
+    );
+    if (!user) {
+      return next(errorHandler(404, 'User not found'));
+    }
+    res.status(200).json(user.followers);
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Get user's following
+export const getFollowing = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId).populate(
+      'following',
+      'username profilePicture'
+    );
+    if (!user) {
+      return next(errorHandler(404, 'User not found'));
+    }
+    res.status(200).json(user.following);
+  } catch (error) {
+    next(error);
+  }
+};

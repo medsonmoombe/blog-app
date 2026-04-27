@@ -25,9 +25,33 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    resetPasswordToken: {
+      type: String,
+      default: null,
+    },
+    resetPasswordExpires: {
+      type: Date,
+      default: null,
+    },
+    bookmarks: {
+      type: [String],
+      default: [],
+    },
+    followers: {
+      type: [String],
+      default: [],
+    },
+    following: {
+      type: [String],
+      default: [],
+    },
   },
   { timestamps: true }
 );
+
+// Add indexes
+userSchema.index({ email: 1 });
+userSchema.index({ username: 1 });
 
 const User = mongoose.model('User', userSchema);
 

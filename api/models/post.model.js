@@ -29,9 +29,40 @@ const postSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    status: {
+      type: String,
+      enum: ['draft', 'published'],
+      default: 'published',
+    },
+    likes: {
+      type: [String],
+      default: [],
+    },
+    views: {
+      type: Number,
+      default: 0,
+    },
+    metaDescription: {
+      type: String,
+      default: '',
+    },
+    metaKeywords: {
+      type: String,
+      default: '',
+    },
+    tags: {
+      type: [String],
+      default: [],
+    },
   },
   { timestamps: true }
 );
+
+// Add indexes for better query performance
+postSchema.index({ userId: 1, createdAt: -1 });
+postSchema.index({ category: 1, createdAt: -1 });
+postSchema.index({ slug: 1 });
+postSchema.index({ status: 1, createdAt: -1 });
 
 const Post = mongoose.model('Post', postSchema);
 

@@ -7,6 +7,12 @@ import {
   test,
   updateUser,
   updateUserRole,
+  toggleBookmark,
+  getBookmarkedPosts,
+  getAuthorProfile,
+  toggleFollow,
+  getFollowers,
+  getFollowing,
 } from '../controllers/user.controller.js';
 import { verifyToken } from '../utils/verifyUser.js';
 
@@ -18,7 +24,12 @@ router.delete('/delete/:userId', verifyToken, deleteUser);
 router.post('/signout', signout);
 router.get('/getusers', verifyToken, getUsers);
 router.get('/:userId', getUser);
-// update user role to admin or user by admin (admin only)
 router.put('/updateUserRole/:userId', verifyToken, updateUserRole);
+router.put('/bookmark/:postId', verifyToken, toggleBookmark);
+router.get('/bookmarks/posts', verifyToken, getBookmarkedPosts);
+router.get('/author/:userId', getAuthorProfile);
+router.put('/follow/:userId', verifyToken, toggleFollow);
+router.get('/:userId/followers', getFollowers);
+router.get('/:userId/following', getFollowing);
 
 export default router;
